@@ -12,11 +12,7 @@ The exam includes 3 tasks to be done: [Calculator](/tasks/Calculator.md), [Pyram
 ### Result ###
 
 * Author name : Panyukov Nikolay (Панюков Николай)
-* Codeship : {PUT YOUR CODESHIP BAGDE HERE}
-
-Example of Codeship badge. Please remove the example before you send us the link. 
-[ ![Codeship Status for tschool/javaschoolexam](https://app.codeship.com/projects/a9af8940-d130-0134-89a6-5e8aaaa2a5a2/status?branch=master)](https://app.codeship.com/projects/201451)
-
+* Codeship : [![Codeship Status for Zylex7/tschool-testtasks](https://app.codeship.com/projects/a3c15280-1e92-0138-7a34-4ae5e1f635a1/status?branch=master)](https://app.codeship.com/projects/382171)
 
 ### How to start?  ###
 * Install [GIT](https://git-scm.com/) and [Maven](https://maven.apache.org)
