@@ -19,77 +19,64 @@ public class Calculator {
      * @return string value containing result of evaluation or null if statement is invalid
      */
     public String evaluate(String statement) {
-        if (!checkStatements(statement)) {
+        if (!checkStatement(statement)) {
             return null;
         }
         try {
             List<Double> parenthesesResults = new ArrayList<>();
-            int i = 0;
-            while (statement.contains(")")) {
-                int closeBracketIndex = statement.indexOf(")");
-                if (!statement.substring(0, closeBracketIndex).contains("(")) {
-                    return null;
-                }
-                int openBracketIndex = statement.substring(0, closeBracketIndex).lastIndexOf("(");
-                String subStatement = statement.substring(openBracketIndex + 1, closeBracketIndex);
-                parenthesesResults.add(calculateStatement(subStatement, parenthesesResults));
-                statement = String.format("%s{%d}%s",
-                        statement.substring(0, openBracketIndex),
-                        i,
-                        statement.substring(closeBracketIndex + 1));
-                i++;
-            }
-            parenthesesResults.forEach(System.out::println);
-            System.out.println(statement);
-            return formatOutput(calculateStatement(statement, parenthesesResults));
+            statement = processParentheses(statement, parenthesesResults);
+            return statement == null
+                    ? null
+                    : formatOutput(calculateStatement(statement, parenthesesResults));
         } catch (DivisionByZeroException | NumberFormatException e) {
             return null;
         }
     }
 
-    private boolean checkStatements(String statement) {
-        if (statement == null || statement.isEmpty() || statement.contains(",")) {
+    private boolean checkStatement(String statement) {
+        if (statement == null || statement.isEmpty()) {
             return false;
         }
-        int openParenthesesCount = 0;
-        int closeParenthesesCount = 0;
-        for (char c : statement.toCharArray()) {
-            if (c == '(') {
-                openParenthesesCount++;
+        int openParenthesesCount = (int) statement.chars().filter(c -> c == '(').count();
+        int closeParenthesesCount = (int) statement.chars().filter(c -> c == ')').count();
+        return openParenthesesCount == closeParenthesesCount;
+    }
+
+    private String processParentheses(String statement, List<Double> parenthesesResults) {
+        int i = 0;
+        while (statement.contains(")")) {
+            int closeBracketIndex = statement.indexOf(")");
+            if (!statement.substring(0, closeBracketIndex).contains("(")) {
+                return null;
             }
-            if (c == ')') {
-                closeParenthesesCount++;
-            }
+            int openBracketIndex = statement.substring(0, closeBracketIndex).lastIndexOf("(");
+            String subStatement = statement.substring(openBracketIndex + 1, closeBracketIndex);
+            parenthesesResults.add(calculateStatement(subStatement, parenthesesResults));
+            statement = String.format("%s{%d}%s",
+                    statement.substring(0, openBracketIndex),
+                    i++,
+                    statement.substring(closeBracketIndex + 1));
         }
-        if (openParenthesesCount != closeParenthesesCount) {
-            return false;
-        }
-        return true;
+        return statement;
     }
 
     private double calculateStatement(String statement, List<Double> parenthesesResults) {
         List<Double> numbers = Arrays.stream(statement.split("[\\-+/*]")).map(s -> {
                 if (s.contains("{")) {
-                    int index = Integer.parseInt(s.substring(1, s.length()-1));
+                    int index = Integer.parseInt(s.replaceAll("[{}]", ""));
                     return parenthesesResults.get(index);
                 }
                 return Double.parseDouble(s);
         }).collect(Collectors.toList());
-        List<String> signs = Arrays.stream(statement.replace("{", "").replace("}","")
-                .split("[\\d.]"))
-                .filter(s -> Pattern.matches("[\\-+/*]", s)).collect(Collectors.toList());
-        calculateOperations(OperatorType.MUL_DIV, numbers, signs);
-        calculateOperations(OperatorType.ADD_SUB, numbers, signs);
+        List<String> signs = Arrays.stream(statement.replaceAll("[{}]", "").split("[\\d]"))
+                .filter(s -> Pattern.matches("[\\-+/*]", s))
+                .collect(Collectors.toList());
+        processOperations(OperatorType.MUL_DIV, numbers, signs);
+        processOperations(OperatorType.ADD_SUB, numbers, signs);
         return numbers.get(0);
     }
 
-    private String formatOutput(double result) {
-        return result % 1 == 0
-                ? String.valueOf((int) result)
-                : String.valueOf(result);
-    }
-
-    private void calculateOperations(OperatorType operatorType, List<Double> numbers, List<String> signs) {
+    private void processOperations(OperatorType operatorType, List<Double> numbers, List<String> signs) {
         int i = 0;
         Iterator<String> iterator = signs.iterator();
         while (iterator.hasNext()) {
@@ -118,7 +105,13 @@ public class Calculator {
             }
             return firstNum / secondNum;
         }
-        return null;
+        return 0d;
+    }
+
+    private String formatOutput(double result) {
+        return result % 1 == 0
+                ? String.valueOf((int) result)
+                : String.valueOf(result);
     }
 
     enum OperatorType {
