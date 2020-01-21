@@ -21,7 +21,7 @@ public class PyramidBuilderTest {
                 {2, 0, 15}};
 
         // run
-        int[][] pyramid = pyramidBuilder.buildPyramid(input);
+        int[][] pyramid = pyramidBuilder.processBuild(input);
 
         // assert
         comparePyramids(expected, pyramid);
@@ -37,7 +37,7 @@ public class PyramidBuilderTest {
                 {4, 0, 5, 0, 9}};
 
         // run
-        int[][] pyramid = pyramidBuilder.buildPyramid(input);
+        int[][] pyramid = pyramidBuilder.processBuild(input);
 
         // assert
         comparePyramids(expected, pyramid);
@@ -54,7 +54,7 @@ public class PyramidBuilderTest {
                 {7, 0, 8, 0, 9, 0, 10}};
 
         // run
-        int[][] pyramid = pyramidBuilder.buildPyramid(input);
+        int[][] pyramid = pyramidBuilder.processBuild(input);
 
         // assert
         comparePyramids(expected, pyramid);
@@ -73,7 +73,7 @@ public class PyramidBuilderTest {
         };
 
         // run
-        int[][] pyramid = pyramidBuilder.buildPyramid(input);
+        int[][] pyramid = pyramidBuilder.processBuild(input);
 
         // assert
         comparePyramids(expected, pyramid);
@@ -93,7 +93,7 @@ public class PyramidBuilderTest {
         };
 
         // run
-        int[][] pyramid = pyramidBuilder.buildPyramid(input);
+        int[][] pyramid = pyramidBuilder.processBuild(input);
 
         // assert
         comparePyramids(expected, pyramid);
@@ -106,7 +106,7 @@ public class PyramidBuilderTest {
         List<Integer> input = Arrays.asList(1, 3, 2, 9, 4, null);
 
         // run
-        int[][] pyramid = pyramidBuilder.buildPyramid(input);
+        int[][] pyramid = pyramidBuilder.processBuild(input);
 
         // assert (exception)
     }
@@ -117,7 +117,7 @@ public class PyramidBuilderTest {
         List<Integer> input = Arrays.asList(1, 3, 2, 9, 4, 5, null);
 
         // run
-        int[][] pyramid = pyramidBuilder.buildPyramid(input);
+        int[][] pyramid = pyramidBuilder.processBuild(input);
 
         // assert (exception)
     }
@@ -131,7 +131,7 @@ public class PyramidBuilderTest {
         }
 
         // run
-        int[][] pyramid = pyramidBuilder.buildPyramid(input);
+        int[][] pyramid = pyramidBuilder.processBuild(input);
 
         // assert (exception)
     }
@@ -145,7 +145,7 @@ public class PyramidBuilderTest {
         }
 
         // run
-        int[][] pyramid = pyramidBuilder.buildPyramid(input);
+        int[][] pyramid = pyramidBuilder.processBuild(input);
 
         // assert (exception)
     }
@@ -156,7 +156,7 @@ public class PyramidBuilderTest {
         List<Integer> input = Collections.nCopies(Integer.MAX_VALUE - 1, 0);
 
         // run
-        int[][] pyramid = pyramidBuilder.buildPyramid(input);
+        int[][] pyramid = pyramidBuilder.processBuild(input);
 
         // assert (exception)
     }
@@ -171,7 +171,7 @@ public class PyramidBuilderTest {
                 {3, 0, 4, 0, 5}};
 
         // run
-        int[][] pyramid = pyramidBuilder.buildPyramid(input);
+        int[][] pyramid = pyramidBuilder.processBuild(input);
 
         // assert
         comparePyramids(expected, pyramid);
