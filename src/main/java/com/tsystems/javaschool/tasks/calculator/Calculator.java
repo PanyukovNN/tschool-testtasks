@@ -111,7 +111,7 @@ public class Calculator {
     private String formatOutput(double result) {
         return result % 1 == 0
                 ? String.valueOf((int) result)
-                : String.valueOf(result);
+                : String.valueOf(Math.round(result * 10000) / 10000.0);
     }
 
     enum OperatorType {
